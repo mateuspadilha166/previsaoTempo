@@ -6,12 +6,11 @@ use App\WebServes\OpenWeatherMap;
 
 // INSTÂNCIA DA API
 $obOpenWeatherMap = new OpenWeatherMap('6dcddb83030da9162abf8bc4f1d30550');
-
-// Recebe a cidade e estado via entrada no terminal
+// digite sua cidade no terminal
 echo "Digite a cidade: ";
 $cidade = trim(fgets(STDIN));
-
-echo "Digite o estado (UF): ";
+// e seu estado
+echo "Digite o estado: ";
 $uf = trim(fgets(STDIN));
 
 // Verifica se os dados foram informados corretamente
