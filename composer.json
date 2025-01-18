@@ -1,0 +1,8 @@
+{
+    "name": "wdev/open-weather-map",
+    "autoload": {
+        "psr-4": {
+            "Wdev\\OpenWeatherMap\\": "src/"
+        }
+    }
+}
