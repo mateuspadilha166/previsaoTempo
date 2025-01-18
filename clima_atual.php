@@ -3,20 +3,27 @@
 require __DIR__ . '/vendor/autoload.php';
 //DEPENDENCIAS
 use App\WebServes\OpenWeatherMap;
-//INSTANCIA DA API
+
+// INSTÂNCIA DA API
 $obOpenWeatherMap = new OpenWeatherMap('6dcddb83030da9162abf8bc4f1d30550');
-//verifica o que eu digitei
-if(isset($_GET['cidade']) && isset($_GET['uf'])){
-    $cidade = $_GET['cidade'];
-    $uf = $_GET['uf'];
+
+// Recebe a cidade e estado via entrada no terminal
+echo "Digite a cidade: ";
+$cidade = trim(fgets(STDIN));
+
+echo "Digite o estado (UF): ";
+$uf = trim(fgets(STDIN));
+
+// Verifica se os dados foram informados corretamente
+if (empty($cidade) || empty($uf)) {
+    die("Cidade e estado são obrigatórios!\n");
 }
-/**Ececuta a consulta na API no arquivo OpenWarder*/
+
+/** Executa a consulta na API com os parâmetros fornecidos */
 $dadosClima = $obOpenWeatherMap->consultarClimaAtual($cidade, $uf);
 
-//DUBUG
-echo 'Cidade:' .$cidade.'/'.$uf.'<br>';
-echo 'Temperatura: ' . $dadosClima['main']['temp'] . '°C <br>'."/n";
-echo "Sencação Térmica: " . $dadosClima['main']['feels_like'] . '°C <br>'."/n";
-//Clima
-
-echo 'Clima: ' . $dadosClima['weather'][0]['description'] . "<br>";
+// Exibe as informações do clima
+echo 'Cidade: ' . $cidade . '/' . $uf . "\n";
+echo 'Temperatura: ' . $dadosClima['main']['temp'] . '°C' . "\n";
+echo "Sensação Térmica: " . $dadosClima['main']['feels_like'] . '°C' . "\n";
+echo 'Clima: ' . ucfirst($dadosClima['weather'][0]['description']) . "\n";
