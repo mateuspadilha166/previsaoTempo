@@ -1,6 +1,6 @@
 <?php
 
-namespace App\WebServes;
+namespace Wdev\OpenWeatherMap;
 
 class OpenWeatherMap
 {
