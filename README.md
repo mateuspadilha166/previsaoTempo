@@ -11,3 +11,5 @@
 # dia 3
 ## Ajustado o apache, e tambem ajustado o erro nas chamadas das classes que estavam sendo chamadas de app/WebServices/....
 ## o jeito certo era app/WebServer/.... parabéns por ficar a madrugada toda enchendo linguiça no codigo!! e o erro na sua cara!
+### Em todo caso, para esse codigo funcionar precisa fazer o seguinte:
+- navegar até o arquivo index.php e colocar no terminal *php -S localhost:8000*, assim poderá acessar o link
