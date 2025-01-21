@@ -7,7 +7,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 
 // Dependências
-use Wdev\OpenWeatherMap\OpenWeatherMap;
+use App\WebServes\OpenWeatherMap;
 
 ?>
 
