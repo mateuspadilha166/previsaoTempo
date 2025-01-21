@@ -1,14 +1,36 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+require_once __DIR__ . '/../vendor/autoload.php';
 
-// Carregando automaticamente a classe OpenWeatherMap
-require __DIR__ . '/../vendor/autoload.php';
-
-
-// Dependências
 use App\WebServes\OpenWeatherMap;
 
+$apiKey = '6dcddb83030da9162abf8bc4f1d30550'; // minha apt keu
+$obOpenWeatherMap = new OpenWeatherMap($apiKey);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $cidade = $_POST['cidade'];
+    $uf = $_POST['uf'];
+
+    // Verificar se a cidade e o estado foram informados
+    if (empty($cidade) || empty($uf)) {
+        echo "Cidade e estado são obrigatórios!";
+    } else {
+        // Consultar previsão futura
+        $previsoesFuturas = $obOpenWeatherMap->consultarPrevisaoFutura($cidade, $uf);
+
+        if (empty($previsoesFuturas)) {
+            echo "Erro ao obter as previsões!";
+        } else {
+            echo "<h2>Previsões para os próximos 5 dias</h2>";
+
+            foreach ($previsoesFuturas as $previsao) {
+                $data = date("d/m/Y", strtotime($previsao['dt_txt']));
+                echo "<p>Data: {$data}</p>";
+                echo "<p>Temperatura: {$previsao['main']['temp']}°C</p>";
+                echo "<p>Clima: " . ucfirst($previsao['weather'][0]['description']) . "</p><hr>";
+            }
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,50 +39,15 @@ use App\WebServes\OpenWeatherMap;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Previsão do Tempo</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Previsão do Tempo</h1>
-    <div class="container">
-        <form action="index.php" method="post">
-            <label for="cidade">Cidade</label>
-            <input type="text" name="cidade" id="cidade" required>
-            <label for="uf">Estado</label>
-            <input type="text" name="uf" id="uf" required>
-            <button type="submit">Consultar</button>
-        </form>
-    </div>
-
-    <?php
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            
-            // Instância da API
-            $obOpenWeatherMap = new OpenWeatherMap('6dcddb83030da9162abf8bc4f1d30550');
-            
-            // Recebe cidade e estado
-            $cidade = $_POST['cidade'];
-            $uf = $_POST['uf'];
-            
-            // Verifica se os dados foram informados corretamente
-            if (empty($cidade) || empty($uf)) {
-                die("Cidade e estado são obrigatórios!\n");
-            }
-            
-            // Executa a consulta na API 
-            $dadosClima = $obOpenWeatherMap->consultarClimaAtual($cidade, $uf);
-            
-            // Verifica se a resposta da API contém erro
-            if (isset($dadosClima['cod']) && $dadosClima['cod'] == 404) {
-                echo '<p>Erro: Cidade não encontrada!</p>';
-            } else {
-                // Exibe as informações do clima
-                echo '<h2>Resultado da Previsão</h2>';
-                echo '<p><strong>Cidade:</strong> ' . $cidade . '/' . $uf . '</p>';
-                echo '<p><strong>Temperatura:</strong> ' . $dadosClima['main']['temp'] . '°C</p>';
-                echo '<p><strong>Sensação Térmica:</strong> ' . $dadosClima['main']['feels_like'] . '°C</p>';
-                echo '<p><strong>Clima:</strong> ' . ucfirst($dadosClima['weather'][0]['description']) . '</p>';
-            }
-        }
-    ?>
+    <h1>Consulta de Previsão do Tempo</h1>
+    <form action="index.php" method="POST">
+        <label for="cidade">Cidade:</label>
+        <input type="text" name="cidade" id="cidade" required>
+        <label for="uf">Estado:</label>
+        <input type="text" name="uf" id="uf" required>
+        <button type="submit">Consultar</button>
+    </form>
 </body>
 </html>
