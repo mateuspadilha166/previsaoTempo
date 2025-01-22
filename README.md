@@ -16,3 +16,4 @@
 
 # dia 4 
 ## adicionado conexao mysql 
+### creditos @wdevoficial e chat O_o
