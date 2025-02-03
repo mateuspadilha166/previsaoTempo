@@ -42,7 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $icone = '<img src="icons/cloudy.png" alt="Nublado" width="50">';
         } elseif (strpos(strtolower($descricao), 'limpo') !== false || strpos(strtolower($descricao), 'ensolarado') !== false) {
             $icone = '<img src="icons/sunny.png" alt="Ensolarado" width="50">';
+        }elseif (strpos(strtolower($descricao), 'nuvens dispersas') !== false) {
+            $icone = '<img src="icons/nuvensDispersas.png" alt="Nuvens Dispersas" width="50">';
         }
+        
+
 
         // Verificar se a previsão já existe no banco
         $stmt = $pdo->prepare(
