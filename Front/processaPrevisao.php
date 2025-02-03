@@ -34,7 +34,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $temperatura = $previsao['main']['temp'];
         $descricao = ucfirst($previsao['weather'][0]['description']);
 
-        // Verificar se a previsão já existe
+        // Escolher o ícone baseado no clima
+        $icone = '';
+        if (strpos(strtolower($descricao), 'chuva') !== false || strpos(strtolower($descricao), 'tempestade') !== false) {
+            $icone = '<img src="icons/rain.png" alt="Chuva" width="50">';
+        } elseif (strpos(strtolower($descricao), 'nublado') !== false) {
+            $icone = '<img src="icons/cloudy.png" alt="Nublado" width="50">';
+        } elseif (strpos(strtolower($descricao), 'limpo') !== false || strpos(strtolower($descricao), 'ensolarado') !== false) {
+            $icone = '<img src="icons/sunny.png" alt="Ensolarado" width="50">';
+        }
+
+        // Verificar se a previsão já existe no banco
         $stmt = $pdo->prepare(
             "SELECT COUNT(*) FROM previsao WHERE cidade = :cidade AND estado = :estado AND data_hora = :data_hora"
         );
@@ -45,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ]);
 
         if ($stmt->fetchColumn() > 0) {
-            continue; // ele pula uma previsao existente
+            continue; // pula se já existir
         }
 
         try {
@@ -70,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $html .= "<div class='previsao'>";
         $html .= "<p><strong>Data:</strong> {$dataFormatada}</p>";
         $html .= "<p><strong>Temperatura:</strong> {$temperatura}°C</p>";
-        $html .= "<p><strong>Clima:</strong> {$descricao}</p>";
+        $html .= "<p><strong>Clima:</strong> {$descricao} {$icone}</p>";
         $html .= "</div><hr>";
     }       
     // Se nenhuma previsão foi salva, exibe a mensagem T_T
