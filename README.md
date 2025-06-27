@@ -4,16 +4,16 @@
 - Comando: composer install
 
 
-# dia 2: Esse dia foi um cuzinho de chato usei apache para fazer inicializão do banco de dados 
+# dia 2: Usei apache para banco de dados
 ## dito isso, Usei mysql mesmo porém muitos erros enfrentei ao linkar o apache com o mysql
-### Parte do front... tem 2 inputs com um botão de consulta que ainda não funfa PORQUE A DROGA DO apache NAO SABE VER DIRETORIO DAS PASTAS OU SOU EU QUE NÃO SEI ALOCAR AS PASTAS NOS CODIGOS VSF!!!!
+### Parte do front... tem 2 inputs com um botão de consulta que ainda não funciona, tendo problemas no banco
 
 # dia 3
 ## Ajustado o apache, e tambem ajustado o erro nas chamadas das classes que estavam sendo chamadas de app/WebServices/....
-## o jeito certo era app/WebServer/.... parabéns por ficar a madrugada toda enchendo linguiça no codigo!! e o erro na sua cara!
+## o jeito certo era app/WebServer/
 ### Em todo caso, para esse codigo funcionar precisa fazer o seguinte:
 - navegar até o arquivo index.php e colocar no terminal *php -S localhost:8000*, assim poderá acessar o link  http://localhost:8000
 
 # dia 4 
 ## adicionado conexao mysql 
-### creditos @wdevoficial e chat O_o
+### creditos @wdevoficial 
